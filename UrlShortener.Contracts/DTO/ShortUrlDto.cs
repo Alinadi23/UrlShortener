@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UrlShortener.DAL.DTO
+namespace UrlShortener.Contracts.DTO
 {
     public class ShortUrlDTO
     {
