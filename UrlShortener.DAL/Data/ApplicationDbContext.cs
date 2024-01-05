@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UrlShortener.DAL.Models;
 
 namespace UrlShortener.DAL.Data
 {
@@ -14,5 +15,6 @@ namespace UrlShortener.DAL.Data
 
         }
 
+        public DbSet<ShortUrl> ShortUrls { get; set; }
     }
 }
