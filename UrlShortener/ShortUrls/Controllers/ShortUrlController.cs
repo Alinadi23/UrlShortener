@@ -29,8 +29,8 @@ namespace UrlShortener.UI.ShortUrls.Controllers
         [HttpGet]
         public async Task<IActionResult> RedirectToOriginalUrl(string path)
         {
-            var decodedPath = Uri.UnescapeDataString(path);
-            var shortUrl = await _shortUrlService.GetOriginalUrl(decodedPath);
+            var unescapedPath = Uri.UnescapeDataString(path);
+            var shortUrl = await _shortUrlService.GetOriginalUrl(unescapedPath);
             if (shortUrl == null)
             {
                 return NotFound(new { ErrorMessage = Resources.PageNotFound });
