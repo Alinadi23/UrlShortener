@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using UrlShortener.BL.DTO;
+using UrlShortener.BL.ShortUrls.DTO;
 
 namespace UrlShortener.UI.ShortUrls.Controllers
 {
@@ -16,7 +16,6 @@ namespace UrlShortener.UI.ShortUrls.Controllers
         [HttpPost]
         public IActionResult GenerateShortUrl(ShortUrlDTO model)
         {
-
             return Ok();
         }
 

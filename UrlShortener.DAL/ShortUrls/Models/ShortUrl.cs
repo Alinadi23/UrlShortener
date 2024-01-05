@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UrlShortener.BL.DTO
+namespace UrlShortener.DAL.ShortUrls.Models
 {
-    public class ShortUrlDTO
+    public class ShortUrl
     {
+        public int Id { get; set; }
         public string OriginalUrl { get; set; }
+        public string? ShortUrlCode { get; set; }
     }
 }
