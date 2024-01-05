@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using UrlShortener.DAL.DTO;
+using UrlShortener.BL.DTO;
 
 namespace UrlShortener.UI.ShortUrls.Controllers
 {

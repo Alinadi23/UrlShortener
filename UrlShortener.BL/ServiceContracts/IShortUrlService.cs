@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UrlShortener.Contracts.DTO;
+using UrlShortener.BL.DTO;
 
-namespace UrlShortener.Contracts.ServiceContracts
+namespace UrlShortener.BL.ServiceContracts
 {
     public interface IShortUrlService
     {
