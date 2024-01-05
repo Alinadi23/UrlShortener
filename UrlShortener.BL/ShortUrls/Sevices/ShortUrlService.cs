@@ -10,7 +10,7 @@ using UrlShortener.BL.ShortUrls.ServiceContracts;
 using UrlShortener.DAL.ShortUrls.Models;
 using UrlShortener.DAL.ShortUrls.RepositoryContracts;
 
-namespace UrlShortener.Infra.ShortUrls.Services
+namespace UrlShortener.BL.ShortUrls.Sevices
 {
     public class ShortUrlService : IShortUrlService
     {
@@ -29,11 +29,19 @@ namespace UrlShortener.Infra.ShortUrls.Services
         {
             try
             {
-                var shortUrl = _mapper.Map<ShortUrl>(shortUrlDto);
-                await _shortUrlRepository.Create(shortUrl);
-                shortUrl.ShortUrlCode = EncodeUrl(shortUrl.Id);
-                await _shortUrlRepository.Update(shortUrl);
-                return shortUrl.ShortUrlCode;
+                var shortUrlCode = string.Empty;
+                var existingOriginalUrl = await _shortUrlRepository.GetByOriginalUrl(shortUrlDto.OriginalUrl);
+                if (existingOriginalUrl == null)
+                {
+                    var createResult = await CreateNewShortUrl(shortUrlDto.OriginalUrl);
+                    shortUrlCode = createResult.ShortUrlCode;
+                }
+                else
+                {
+                    shortUrlCode = existingOriginalUrl.ShortUrlCode;
+                }
+
+                return shortUrlCode;
             }
             catch (Exception ex)
             {
@@ -48,6 +56,15 @@ namespace UrlShortener.Infra.ShortUrls.Services
             return _mapper.Map<ShortUrlDTO>(shortUrl);
         }
 
+
+        private async Task<ShortUrl> CreateNewShortUrl(string originalUrl)
+        {
+            var shortUrl = new ShortUrl { OriginalUrl = originalUrl };
+            await _shortUrlRepository.Create(shortUrl);
+            shortUrl.ShortUrlCode = EncodeUrl(shortUrl.Id);
+            await _shortUrlRepository.Update(shortUrl);
+            return shortUrl;
+        }
         private string EncodeUrl(int id)
         {
             var plainTextBytes = Encoding.UTF8.GetBytes(id.ToString());
@@ -55,4 +72,5 @@ namespace UrlShortener.Infra.ShortUrls.Services
             return encodedText;
         }
     }
+
 }

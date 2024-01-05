@@ -9,8 +9,8 @@ namespace UrlShortener.BL.ShortUrls.ServiceContracts
 {
     public interface IShortUrlService
     {
-        public ShortUrlDTO GetOriginalUrl(string path);
+        public Task<ShortUrlDTO> GetOriginalUrl(string path);
 
-        string GenerateShortUrl(ShortUrlDTO shortUrlDto);
+        Task<string> GenerateShortUrl(ShortUrlDTO shortUrlDto);
     }
 }

@@ -10,6 +10,7 @@ namespace UrlShortener.DAL.ShortUrls.RepositoryContracts
     public interface IShortUrlRepository
     {
         public Task<ShortUrl> GetByShortUrlCode(string code);
+        public Task<ShortUrl> GetByOriginalUrl(string originalUrl);
         Task<int> Create(ShortUrl shortUrl);
         Task Update(ShortUrl shortUrl);
     }

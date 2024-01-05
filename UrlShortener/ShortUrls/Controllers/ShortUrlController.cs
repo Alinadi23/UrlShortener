@@ -1,33 +1,42 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UrlShortener.BL.ShortUrls.DTO;
+using UrlShortener.BL.ShortUrls.ServiceContracts;
+using UrlShortener.UI.Properties;
 
 namespace UrlShortener.UI.ShortUrls.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class ShortUrlController : ControllerBase
     {
+        private readonly IShortUrlService _shortUrlService;
 
-        public ShortUrlController()
+        public ShortUrlController(IShortUrlService shortUrlService)
         {
+            _shortUrlService = shortUrlService;
         }
 
         [HttpPost]
-        public IActionResult GenerateShortUrl(ShortUrlDTO model)
+        public async Task<IActionResult> GenerateShortUrl(ShortUrlDTO model)
         {
-            return Ok();
+            var encodedText = await _shortUrlService.GenerateShortUrl(model);
+            var encodedUrl = Url.Action(action : "RedirectToOriginalUrl", controller :"ShortUrl", new { Path = encodedText }, Request.Scheme);
+
+            return Ok(encodedUrl);
         }
 
         [HttpGet]
-        public IActionResult RedirectToOriginalUrl(string path)
+        public async Task<IActionResult> RedirectToOriginalUrl(string path)
         {
-            if (path == null)
+            var decodedPath = Uri.UnescapeDataString(path);
+            var shortUrl = await _shortUrlService.GetOriginalUrl(decodedPath);
+            if (shortUrl == null)
             {
-                return NotFound();
+                return NotFound(new { ErrorMessage = Resources.PageNotFound });
             }
 
-            return Ok();
+            return Redirect(shortUrl.OriginalUrl);
         }
     }
 }

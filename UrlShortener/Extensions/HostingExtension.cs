@@ -1,5 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using UrlShortener.BL.ShortUrls.ServiceContracts;
+using UrlShortener.BL.ShortUrls.Sevices;
 using UrlShortener.DAL.Data;
+using UrlShortener.DAL.ShortUrls.Repositories;
+using UrlShortener.DAL.ShortUrls.RepositoryContracts;
 
 namespace UrlShortener.UI.Extensions
 {
@@ -14,6 +18,9 @@ namespace UrlShortener.UI.Extensions
             var cnn = _configuration.GetConnectionString("Default");
             services.AddDbContext<ApplicationDbContext>(c => c.UseInMemoryDatabase(cnn));
             services.AddLogging(config => config.AddConfiguration(_configuration.GetSection("Logging")).AddConsole());
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddScoped<IShortUrlRepository, ShortUrlRepository>();
+            services.AddScoped<IShortUrlService, ShortUrlService>();
 
         }
     }
